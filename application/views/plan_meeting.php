@@ -80,7 +80,7 @@
 		<br /><br />
 		<div id="group"></div><br />
 
-		<!--<button id="googleBtn" class="g-interactivepost" data-contenturl="http://webprojects.dev/meetie/index.php/home" data-clientid="552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com" data-calltoactionurl="http://webprojects.dev/meetie/index.php/home" data-cookiepolicy="none">Share</button>-->
+		<button id='sharePost' hidden></button>
 		<button id="submitInvitation" onClick="sendInvitation()">Submit</button>
 	</body>
 </html>
