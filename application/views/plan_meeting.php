@@ -31,6 +31,7 @@
 		    	xfbml      : true,  // parse social plugins on this page
 		   		version    : 'v2.2' 
 			});
+				getUserName();
 				getUserFriends();
 			};
 						
@@ -67,7 +68,7 @@
 		<input id="deadline" type="date" name="deadline" /><br />
 
 		<label for="datetime">Date and time</label>
-		<input id="datetime" type="datetime-local" name="datetime" /> <button onClick="addDateTime()">+</button><br />
+		<input id="datetime" type="datetime-local" name="datetime" /> <button id="addDate" onClick="addDateTime()">+</button><br />
 
 		<div id="meeting_times"></div><br />
 
@@ -79,6 +80,7 @@
 		<br /><br />
 		<div id="group"></div><br />
 
+		<!--<button id="googleBtn" class="g-interactivepost" data-contenturl="http://webprojects.dev/meetie/index.php/home" data-clientid="552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com" data-calltoactionurl="http://webprojects.dev/meetie/index.php/home" data-cookiepolicy="none">Share</button>-->
 		<button id="submitInvitation" onClick="sendInvitation()">Submit</button>
 	</body>
 </html>

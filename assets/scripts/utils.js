@@ -6,6 +6,7 @@ var userName;
 
 function redirectToHome(userData) {
 	userName = userData.name;
+	networkUserId = userData.id;
 
 	$.ajax({
 	    url:'/meetie/index.php/login/logintoapp',
@@ -26,17 +27,19 @@ function getUserFriends() {
 		facebookFriendsList();
 	}
 	else if (network === 'google_plus') {
-		$("#submitInvitation").attr('class', 'g-interactivepost');
-		$("#submitInvitation").attr('data-contenturl', 'http://webprojects.dev/meetie/index.php/home');
-		$("#submitInvitation").attr('data-clientid', '552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com');
-		$("#submitInvitation").attr('data-calltoactionurl', 'http://webprojects.dev/meetie/index.php/home');
-		$("#submitInvitation").attr('data-cookiepolicy', 'none');
-		$("#submitInvitation").attr('data-prefilltext', 'You have been invited to a meeting on Meetie!');
+		// $("#googleBtn").attr('class', 'g-interactivepost');
+		// $("#googleBtn").attr('data-contenturl', 'http://webprojects.dev/meetie/index.php/home');
+		// $("#googleBtn").attr('data-clientid', '552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com');
+		// $("#googleBtn").attr('data-calltoactionurl', 'http://webprojects.dev/meetie/index.php/home');
+		// $("#googleBtn").attr('data-cookiepolicy', 'none');
+		//$("#googleBtn").attr('data-prefilltext', 'You have been invited to a meeting on Meetieeee!');
+
+
 		// var x = '';
 		// x = x.concat('107120225781624051855' + ',');
 		// x = x.concat('106377808361308044572');
-		//console.log('x: ' + x);
-		$("#submitInvitation").attr('data-recipients', '');
+		// console.log('x: ' + x);
+		// $("#googleBtn").attr('data-recipients', x);
 		googleFriendsList();
 	}
 	else if (network === 'twitter') {
@@ -45,17 +48,20 @@ function getUserFriends() {
 }
 
 function prefillSendTo() {
-	var invitedPersons = '';
-	for (var i = 0; i < selectedFriends.length - 1; i++) {
-		invitedPersons = invitedPersons.concat(selectedFriends[i] + ',');
-	}
-	invitedPersons = invitedPersons.concat(selectedFriends[selectedFriends.length - 1]);
-	var x = '';
-		x = x.concat('107120225781624051855' + ',');
-		x = x.concat('106377808361308044572');
-	$("#submitInvitation").removeAttr('data-recipients');
-	$("#submitInvitation").attr('data-recipients', x);
-}
+// 	var invitedPersons = '';
+// 	for (var i = 0; i < selectedFriends.length - 1; i++) {
+// 		invitedPersons = invitedPersons.concat(selectedFriends[i] + ',');
+// 	}
+// 	invitedPersons = invitedPersons.concat(selectedFriends[selectedFriends.length - 1]);
+// 	$("#googleBtn").attr('class', 'g-interactivepost');
+// 	$("#googleBtn").attr('data-contenturl', 'http://webprojects.dev/meetie/index.php/home');
+// 	$("#googleBtn").attr('data-clientid', '552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com');
+// 	$("#googleBtn").attr('data-calltoactionurl', 'http://webprojects.dev/meetie/index.php/home');
+// 	$("#googleBtn").attr('data-cookiepolicy', 'none');
+// 	$("#googleBtn").attr('data-prefilltext', 'You have been invited to a meeting on Meetie!');
+// 	//$("#googleBtn").removeAttr('data-recipients');
+// 	$("#googleBtn").attr('data-recipients', invitedPersons);
+ }
 
 function selectFriend(element) {
 	var friendId = $(element).parent().attr('id');
@@ -66,7 +72,8 @@ function selectFriend(element) {
 	else {
 		selectedFriends.push(friendId);
 	}
-	prefillSendTo();
+	//$("#googleBtn").attr('data-prefilltext', 'You have been invited to a meeting on Meetieeee!');
+	//prefillSendTo();
 }
 
 function createFriendDiv(friend) {
@@ -130,7 +137,7 @@ function selectAll() {
 			});
 		});
 	}
-	prefillSendTo();
+	//$("#googleBtn").attr('data-prefilltext', 'You have been invited to a meeting on Meetieeee!');
 }
 
 function changePageNr(button) {
@@ -162,7 +169,7 @@ function searchFriends(input) {
 	if (searchValue != '') {
 		$('#friends').empty();
 		for (var i = 0; i < friends.length; i++) {
-			var friendNames = friends[i].name.split(' ');
+			var friendNames = friends[i].name.split(' +');
 			for (var name = 0; name < friendNames.length; name++) {
 				if (friendNames[name].substring(0, searchValue.length).toLowerCase() === searchValue.toLowerCase()) {
 					foundFriends.push(friends[i]);
@@ -179,8 +186,13 @@ function searchFriends(input) {
 }
 
 function addDateTime() {
-	var dateTime = $('<p>' + $('#datetime').val() + '</p>');
-	dateTime.appendTo($('#meeting_times'));
+	if ($('#meeting_times').children().length < 5) {
+		var dateTime = $('<p>' + $('#datetime').val() + '</p>');
+		dateTime.appendTo($('#meeting_times'));
+		if ($('#meeting_times').children().length == 5) {
+			$('#addDate').attr('disabled', true);
+		}
+	}
 }
 
 
@@ -198,9 +210,9 @@ function sendMail(emailAddresses) {
       type: 'POST',
       url: 'https://mandrillapp.com/api/1.0/messages/send.json',
       data: {
-        'key': 'i_o1ZeSyNNtomgpz8wO-6w',
+        'key': 'RoG0PK_QhHP7hQ3pN6jRPw',
         'message': {
-          'from_email': 'ursulescu.andreea@gmail.com',
+          'from_email': 'meetieapplication@gmail.com',
           'to': emails,
           'autotext': 'true',
           'subject': 'Meetie Invitation',
@@ -212,9 +224,66 @@ function sendMail(emailAddresses) {
      });
 }
 
+function fctDegeaba() {
+	console.log('sunt degeaba');
+	var invitedPersons = '';
+
+	for (var i = 0; i < selectedFriends.length - 1; i++) {
+		invitedPersons = invitedPersons.concat(selectedFriends[i] + ',');
+	}
+
+	invitedPersons = invitedPersons.concat(selectedFriends[selectedFriends.length - 1]);
+
+	// $("#googleBtn").attr('class', 'g-interactivepost');
+	// $("#googleBtn").attr('data-contenturl', 'http://webprojects.dev/meetie/index.php/home');
+	// $("#googleBtn").attr('data-clientid', '552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com');
+	// $("#googleBtn").attr('data-calltoactionurl', 'http://webprojects.dev/meetie/index.php/home');
+	// $("#googleBtn").attr('data-cookiepolicy', 'none');
+	//$("#googleBtn").attr('data-prefilltext', 'You have been invited to a meeting on Meetieeee!');
+	//$("#googleBtn").removeAttr('data-recipients');
+	$("#googleBtn").attr('data-recipients', invitedPersons);
+	$('#googleBtn').click();
+}
+
+// function sendGoogleInvitation() {
+
+// 	var invitedPersons = '';
+
+// 	for (var i = 0; i < selectedFriends.length - 1; i++) {
+// 		invitedPersons = invitedPersons.concat(selectedFriends[i] + ',');
+// 	}
+// 	invitedPersons = invitedPersons.concat(selectedFriends[selectedFriends.length - 1]);
+
+// 	//var googleButton = $('<button id="googleBtn" class="g-interactivepost" data-contenturl="http://webprojects.dev/meetie/index.php/home" data-clientid="552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com" data-calltoactionurl="http://webprojects.dev/meetie/index.php/home" data-cookiepolicy="none" data-prefilltext="You have been invited to a meeting on Meetie!" data-recipients=' + invitedPersons + '>Share</button>');
+// 	//googleButton.appendTo($('body'));
+
+// 	$("#googleBtn").attr('class', 'g-interactivepost');
+//     $("#googleBtn").attr('data-contenturl', 'http://webprojects.dev/meetie/index.php/home');
+// 	$("#googleBtn").attr('data-clientid', '552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com');
+// 	$("#googleBtn").attr('data-calltoactionurl', 'http://webprojects.dev/meetie/index.php/home');
+// 	$("#googleBtn").attr('data-cookiepolicy', 'none');
+// 	$("#googleBtn").attr('data-prefilltext', 'You have been invited to a meeting on Meetie!');
+// 	$('#googleBtn').attr('data-recipients', invitedPersons);
+// 	//$('#googleBtn').click();
+// }
+
+
 function sendInvitation() {
 	console.log('atribut setat');
-	console.log($("#submitInvitation").attr('data-recipients'));
+	console.log($("#googleBtn").attr('data-recipients'));
+
+	// var googleButton = $('<button id="googleBtn" class="g-interactivepost" data-contenturl="http://webprojects.dev/meetie/index.php/home" data-clientid="552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com" data-calltoactionurl="http://webprojects.dev/meetie/index.php/home" data-cookiepolicy="none" data-prefilltext="You have been invited to a meeting on Meetie!">Share</button>');
+ // 	googleButton.appendTo($('body'));
+	// // $('#googleBtn').removeAttr('data-prefilltext');
+	// //     	$("#googleBtn").attr('data-prefilltext', 'You have been invited to a meeting on Meetieeee!');
+	// //     	console.log($("#googleBtn").attr('data-prefilltext'));
+	// $("#googleBtn").click();
+	
+	var network = localStorage.getItem("network");
+
+	// if (network === 'google_plus') {
+	// 	sendGoogleInvitation();
+	// }
 
 	var meetingTimes = [];
 	$('#meeting_times').children().each(function() {
@@ -239,6 +308,31 @@ function sendInvitation() {
 	    type: 'POST',
 	    data: invitationData,
 	    success: function(response){
+	   //  	var googleButton = $('<button id="googleBtn" class="g-interactivepost" data-contenturl="http://webprojects.dev/meetie/index.php/home" data-clientid="552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com" data-calltoactionurl="http://webprojects.dev/meetie/index.php/home" data-cookiepolicy="none" data-prefilltext="You have been invited to a meeting on Meetie!">Share</button>');
+		 	// googleButton.appendTo($('body'));
+			//$("#googleBtn").click();
+	    	//fctDegeaba();
+	  //   	var invitedPersons = '';
+
+			// for (var i = 0; i < selectedFriends.length - 1; i++) {
+			// 	invitedPersons = invitedPersons.concat(selectedFriends[i] + ',');
+			// }
+			// invitedPersons = invitedPersons.concat(selectedFriends[selectedFriends.length - 1]);
+
+	  //   	$("#googleBtn").attr('class', 'g-interactivepost');
+		 //    $("#googleBtn").attr('data-contenturl', 'http://webprojects.dev/meetie/index.php/home');
+			// $("#googleBtn").attr('data-clientid', '552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com');
+			// $("#googleBtn").attr('data-calltoactionurl', 'http://webprojects.dev/meetie/index.php/home');
+			// $("#googleBtn").attr('data-cookiepolicy', 'none');
+			// $("#googleBtn").attr('data-prefilltext', 'You have been invited to a meeting on Meetie!');
+			//$('#googleBtn').removeAttr('data-recipients');
+			// var googleButton = $('<button id="googleBtn" class="g-interactivepost" data-contenturl="http://webprojects.dev/meetie/index.php/home" data-clientid="552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com" data-calltoactionurl="http://webprojects.dev/meetie/index.php/home" data-cookiepolicy="none" data-prefilltext="You have been invited to a meeting on Meetie!" data-recipients=' + invitedPersons + '>Share</button>');
+			// googleButton.appendTo($('body'));
+			// //$('#googleBtn').attr('data-recipients', invitedPersons);
+
+			// console.log($('#googleBtn').attr('data-recipients'));
+
+
 	        $('#title').val('');
 	        $('#description').val('');
 	        $('#location').val('');
@@ -268,6 +362,19 @@ function sendInvitation() {
 	 				twitterSendMessage(invitationData.friends[i]);
 	 			}
 	 		}
+	    },
+	    error: function(){
+	    	console.log("Fail");
+	    }
+	});
+}
+
+function getUserName() {
+	$.ajax({
+	    url:'/meetie/index.php/create_meeting/getUserName',
+	    type: 'GET',
+	    success: function(data){
+	       userName = $.parseJSON(data);
 	    },
 	    error: function(){
 	    	console.log("Fail");

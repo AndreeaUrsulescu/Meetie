@@ -10,6 +10,13 @@
 				$this->load->view('plan_meeting');
 		}
 
+		public function getUserName() {
+			$user = $this->session->userdata('user');
+
+			echo json_encode($user['name']);
+			die();
+		}
+
 		public function createInvitation() {
 			$invitationData = array(
 				'creator_id' => $this->session->userdata('user')['id'],

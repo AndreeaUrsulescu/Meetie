@@ -146,5 +146,21 @@
 				return $persons;
 			}		
 		}
+
+		public function getCreatorName($creatorId) {
+
+			$whereCond = array('id' => $creatorId);
+			$this->db->where($whereCond);
+			$result = $this->db->get("users");
+
+			$resArray = $result->result_array();
+
+			if (count($resArray) == 0) {
+			 	return false;
+			}
+			else {
+				return $resArray[0]['name'];
+			}		
+		}
 	}
 ?>

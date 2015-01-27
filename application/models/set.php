@@ -16,5 +16,25 @@
 		public function addInvitedFriend($friend) {
 			$this->db->insert("invited_persons", $friend);
 		}
+
+		public function setInvitationReply($invitationId, $personId, $response) {
+			$data = array(
+				'response' => $response 
+			);
+
+			$whereCond = array('invitation_id' => $invitationId, 'person_id' => $personId);
+			$this->db->where($whereCond);
+			$this->db->update('invited_persons', $data);
+		}
+
+		public function deleteCreatedInvitation($invitationId) {
+			$this->db->delete('invited_persons', array('invitation_id' => $invitationId));
+			$this->db->delete('meeting_time', array('invitation_id' => $invitationId));
+			$this->db->delete('invitations', array('id' => $invitationId));
+		}
+
+		public function deleteInvitation($invitedPerson, $invitationId) {
+			$this->db->delete('invited_persons', array('invitation_id' => $invitationId, 'person_id' => $invitedPerson));
+		}
 	}
 ?>
