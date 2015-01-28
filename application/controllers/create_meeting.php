@@ -44,10 +44,12 @@
 				}
 
 				$friends = $this->input->post('friends');
-				foreach ($friends as $friend) {
+				$friendsNames = $this->input->post('friendsNames');
+				for ($i = 0; $i < count($friends); $i++) {
 					$invFriend = array(
 						'invitation_id' => $invId,
-						'person_id' => $friend,
+						'person_id' => $friends[$i],
+						'person_name' => $friendsNames[$i],
 						'network' => $this->session->userdata('user')['network']
 					);
 					$this->set->addInvitedFriend($invFriend);

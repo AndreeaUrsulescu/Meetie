@@ -1,0 +1,561 @@
+body{
+	margin: 0;
+}
+
+#searchDiv{
+	width: 24%;
+	position:absolute;
+	margin-left: 10%;
+	margin-top: 2%;
+}
+
+#searchByTitle{
+	margin: 0;
+}
+
+.fors{
+	color: white;
+	font-size: 1vmax;
+}
+
+#searchByType{
+	margin-left: 22%;
+	position: absolute;
+	margin-top: 3%;
+	border: none;
+	border-radius: 3px;
+	color: rgb(77,77,77);
+	width: 35%
+}
+
+#multipleSearch{
+	border: none;
+	color: white;
+	background-color: rgb(90,156,203);
+	border-radius: 3px;
+	margin-left: 70%;
+	position: absolute;
+	margin-top:-2%;
+	width: 30%;
+}
+.all{
+	width:100%;
+	height: 653px;
+	margin: 0 auto;
+}
+
+#cover{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index:-1;
+}
+
+.shadow{
+	width:100%;
+	height:100%;
+	position:absolute;
+	z-index:1;
+	background-color:rgba(45,45,45,0.3);	
+	overflow:hidden;
+}
+
+.footer{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 20px;
+	background-color: rgb(90,156,203);
+    -ms-transform: rotate(1.5deg); /* IE 9 */
+    -webkit-transform: rotate(1.5deg); /* Chrome, Safari, Opera */
+    transform: rotate(1.5deg);
+    opacity: 0.9;
+}
+
+.footer2{
+	position: absolute;
+	bottom: 0;
+	width: 50%;
+	height: 20px;
+	background-color: rgb(90,156,203);
+	opacity: 0.7;
+}
+
+.middle{
+	width: 60%;
+	height: 60%;
+	position: absolute;
+	margin-left: 19%;
+	margin-top: 5%;
+}
+
+.ball{
+	border-radius: 500px;
+	border: 10px solid rgba(190,190,190,0.5);
+	opacity: 0.9;
+	width: 65%;
+}
+
+.ball:hover{
+	border: 10px solid rgba(90,90,90,0.5);
+}
+
+.subtitlu{
+	width: 20%;
+	margin-left: 12%;
+	display: inline-block;
+}
+
+.subtitleText{
+	color: white;
+	font-size: 2.3vmin;
+	font-weight: bold;
+	text-shadow: 3px 1px 2px rgba(20, 20, 20, 1);
+}
+
+.patrate{
+	width: 50%;
+	height:50%;
+	margin-left: 30%;
+	margin-bottom: 5%;
+	margin-top: 5%;
+}
+
+.shape1{
+	position: absolute;
+	width:20%;
+	height:19%;
+	background-color: rgb(227,61,41);	
+	z-index:2;
+	opacity:0.9;
+		//border: 1px solid rgba(0,0,0,0.3);
+}
+
+.shape2{
+	position: absolute;
+	width:27%;
+	height:8%;
+	background-color: rgb(91, 157, 205);
+	margin-top:12%;
+	margin-left: 10%;	
+	z-index:1;
+	opacity:0.9;
+		//border: 1px solid rgba(0,0,0,0.4);
+}
+
+.shape3{
+	position: absolute;
+	width:17%;
+	height:22%;
+	background-color: rgb(53, 97, 154);
+	margin-top:5%;
+	margin-left: 30%;	
+	z-index:-1;
+	opacity:0.9;
+		//border: 1px solid rgba(0,0,0,0.4);
+}
+
+.meetie{
+	position: absolute;
+	color: white;
+	margin-top:11%;
+	margin-left:10%;
+	font-size: 4.8vmin;
+	//font-weight: bold;	
+	z-index:1;
+	font-family:"Arial", Helvetica, sans-serif;
+	text-shadow: 3px 1px 2px rgba(20, 20, 20, 1);
+}
+
+body{
+	font-family:"Arial", Helvetica, sans-serif;
+}
+
+.shadow2{
+	width:100%;
+	height:100%;
+	z-index:1;
+	overflow:hidden;
+	position:absolute;
+	background-color:rgba(45,45,45,0.2);	
+}
+
+.middle2{
+	width: 100%;
+	height: 63%;
+	//position: absolute;
+	//margin-left: 19%;
+	margin-top: 8%;
+	background-color:  rgba(100,61,61, 0.6);	
+}
+
+.partOne{
+	width: 50%;
+	height: 100%;
+	float:left;
+	border-right: 1px solid rgba(155,155,155,0.5);
+}
+
+.partTwo{
+	width: 49%;
+	height: 100%;
+	float:left;
+}
+
+.form1{
+	margin-left: 20%;
+	margin-top: -15px;
+	width: 55%;
+}
+
+.labels{
+	padding-top: 20px;
+	color: white;
+	font-size: 1.2vmax;
+}
+
+input{
+	border-radius: 3px;
+	border: none;
+	height: 100%;
+	width: 67%;
+	float: right;
+	margin-top: 5px;
+}
+
+#txt{
+	border-radius: 3px;
+	border: none;
+	height: 100%;
+	width: 67%;
+	float: right;
+}
+
+#type{
+	border-radius: 3px;
+	color: rgb(77,77,77);
+	border: none;
+	height: 27px;
+	width: 250px;
+	float: right;
+		margin-top: 5px;	
+}
+
+.delogare{
+	text-decoration: none;
+	color:white;
+	background-color: rgb(90,156,203);
+	width: 12%;
+	float: right;
+	border-top-left-radius: 30px;
+	height: 4%;
+	text-align: center;
+	font-size: 1.2vmax;
+	margin-top: 6.1%;
+	opacity: 0.9;
+}
+
+#profile{
+	width: 5.7%;
+	position:absolute;
+	right:0;
+	margin-right:3%;
+	border-radius: 200px;
+	margin-top: 3px;
+}
+
+#submitInvitation{
+	margin-left:45%;
+	background-color: rgb(49,93,149);
+	display: inline-block;
+	width: 10%;
+	height: 4%;
+	font-size: 1.2vmax;
+	text-align:center;
+	border-bottom-left-radius: 50px;
+	border-bottom-right-radius: 50px;
+	color:white;
+	opacity:0.9;
+}
+
+
+.inPartTwo{
+	width: 65%;
+	height: 80%;
+	margin-left: 15%;
+	margin-top: 5%;
+	//border: 1px solid rgba(150,150,150,0.5);
+}
+
+.fields{
+	height: 6%;
+}
+
+.shadow3{
+	width:100%;
+	height:100%;
+	position:absolute;
+	z-index:1;
+	background-color:rgba(45,45,45,0.3);	
+	overflow:hidden;
+}
+
+.middle3{
+	width: 100%;
+	height: 80%;
+	margin-top: 8%;
+	overflow:hidden;
+	overflow-y: auto;
+}
+
+.sus{
+	width: 96%;
+	height: 50%;
+	margin-left: 2%;
+	
+}
+
+.jos{
+	width: 96%;
+	height: 50%;
+	margin-left: 2%;
+
+}
+
+.planifica{
+	float:left;
+	width: 35%;
+	height: 99%;
+	background-color: rgba(190, 20, 20, 0.85);
+	border-radius: 5px;
+}
+
+.invitatii{
+	float:left;
+	width: 64%;
+	height: 99%;
+	margin-left: 1%;
+	background-color: rgba(49,93,149,0.85);
+	border-radius: 5px;
+}
+
+.propune{
+	float:left;
+	width: 57%;
+	height: 99%;
+	margin-top: 1%;
+		background-color: rgba(91,156,201,0.85);
+		border-radius: 5px;
+}
+
+.about{
+	float:left;
+	width: 42%;
+	height: 99%;
+	margin-top: 1%;
+		margin-left: 1%;
+		background-color: rgba(77, 77, 77, 0.5);
+		border-radius: 5px;
+}
+
+.deasupra{
+	background-color: rgba(0,0,0,0.1);
+}
+
+.middleText{
+	color: white;
+	position: absolute;
+	margin-top: 21%;
+	margin-left: 15%;
+	font-size: 3vmin;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	text-shadow: 3px 1px 2px rgba(20, 20, 20, 1);
+}
+
+.header{
+	width: 100%;
+	height: 30%;
+	background-color: rgba(40,40,40, 0.5);
+}
+
+.inHeader{
+	text-shadow: 2px 1px 3px rgba(30, 30, 30, 1);
+	color: rgb(220,220,220);
+	margin-left: 33%;
+	font-size: 1.6vmax;
+	margin-top: 5%;
+}
+
+.descriere{
+	text-align: center;
+	margin-top: 5%;
+	color: white;
+	font-size: 1.2vmax;
+}
+
+.middle3{
+	width: 100%;
+	height: 65%;
+	margin-top: 8%;
+	//background-color:  rgba(100,61,61, 0.8);	
+}
+
+.contact{
+	width: 90%;
+	background-color: rgba(100,100,100, 0.5);
+	min-height: 10%;
+	border-radius: 3px;
+	margin-bottom: 2%;
+	margin-left: 5%;
+}
+
+#friends{
+	width:96%;
+	height: 70%;
+	margin-left: 3%;
+	//background-color: rgba(100, 100, 100, 0.5);
+	overflow-y: auto;
+	margin-top: 2%;
+}
+
+#meeting_times {
+	width: 100%;
+	height: 65;
+	display: inline-block;
+	margin-left: 27%;
+}
+
+.times {
+	float: left;
+	margin-left: 5%;
+	color: rgb(200, 200, 200);
+	font-size: 1vmax;
+}
+
+#addDate {
+	margin-top: -1%;
+	position: absolute;
+	margin-left: 30%;
+}
+
+.friend{
+	width:18%;
+	height:40%;
+	background-repeat: no-repeat;
+	background-size: 60%;
+	background-position: 50% 30%;
+	background-color: rgba(0, 0, 0, 0.2);
+	margin: 0.8%;
+	text-align: center;
+	display: inline-block;
+	float:left;
+	border-radius: 3px;
+}
+
+.numeFriend{
+	width: 100%;
+	height: 20%;
+	margin-top: 80%;
+	background-color:rgba(77,77,77,0.5); 
+}
+
+.nume{
+	color: white;
+	font-size: 0.9vmax;
+	padding: 1%;
+}
+
+.cb{
+	width: 13%;
+	float:right;
+	margin-top: -40%;
+}
+
+.page{
+	background-color: rgb(49,93,149);
+	border-radius: 10px;
+
+}
+
+.pagini{
+	margin-left: 35%;
+}
+
+#selectAll{
+	width: 1.2%;
+	margin-top: -25%;
+	margin-left: 33%;
+	position:absolute;
+}
+
+.selectAll{
+	color: white;
+	font-size: 1vmax;
+	margin-left: 35%;
+	margin-top: -1%;
+	position:absolute;
+}
+
+#par{
+	color:white;
+	font-size: 1vmax;
+}
+
+#impar{
+	color:white;
+	font-size: 1vmax;
+}
+
+.toMiddle{
+	margin-left:10%;
+}
+
+.dTitle{
+	padding-top: 5%;
+	font-size: 1.2vmax;
+	font-weight: bold;
+	//color:rgb(200,200,250);
+
+}
+
+.dCreated{
+	font-size: 0.9vmax;
+	color: rgb(210,210,210);
+}
+
+.sendButton{
+	color: white;
+	font-size: 1vmax;
+	background-color: rgb(90,156,203);
+	width: 20%;
+	border-radius: 3px;
+	padding: 4px;
+	margin-top: 3px;
+}
+
+.motiv{
+	width: 50%;
+	height: 15%;
+	border: none;
+	border-radius: 3px;
+	margin-bottom: 1%;
+	margin-top: 1%;
+}
+
+.reasonLabel{
+	color: white;
+	font-size: 1vmax;
+}
+
+.little{
+	font-size: 0.8vmax;
+	margin-left: 42%;
+	color:rgb(220,220,220);
+}
+
+#arrow{
+	position: absolute;
+	width: 6%;
+	margin-left: 2%;
+	margin-top: 1%;
+}

@@ -8,6 +8,7 @@ function googleLogin() {
 	    localStorage.setItem("network", 'google_plus');
 	    result.me()
 	    .done(function (response) {
+	    	localStorage.setItem('profilePicture', response.raw.image.url);
 	    	var userData = {network:"google_plus",id:response.id,name:response.name};
 	        redirectToHome(userData);
 	    })

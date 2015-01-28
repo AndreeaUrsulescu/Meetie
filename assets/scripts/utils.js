@@ -1,5 +1,6 @@
 var friendsPageNumber = 1;
 var selectedFriends = [];
+var selectedFriendsName = [];
 var friends = [];
 var populateContor = 0;
 var userName;
@@ -36,20 +37,27 @@ function getUserFriends() {
 
 function selectFriend(element) {
 	var friendId = $(element).parent().attr('id');
+	var friendName = $(element).parent().attr('data-name');
 	var elementIndex = selectedFriends.indexOf(friendId.toString());
 	if (elementIndex > -1) {
 		selectedFriends.splice(elementIndex, 1);
+		selectedFriendsName.splice(elementIndex, 1);
 	}
 	else {
 		selectedFriends.push(friendId);
+		selectedFriendsName.push(friendName);
 	}
 }
 
 function createFriendDiv(friend) {
-	if (selectedFriends.indexOf(friend.id.toString()) > -1)
-		return $('<div id="' + friend.id +'"> <img src="' + friend.picture + '"/><p>' + friend.name + '</p><input checked type="checkbox" onclick="selectFriend(this)" /></div>');
-	else
-		return $('<div id="' + friend.id +'"> <img src="' + friend.picture + '"/><p>' + friend.name + '</p><input type="checkbox" onclick="selectFriend(this)" /></div>');
+	var friends=document.getElementById("friends");
+
+	if (selectedFriends.indexOf(friend.id.toString()) > -1) {
+		return $('<div class="friend" id="' + friend.id + '" data-name="' + friend.name + '" style="background-image: url(' + friend.picture + ')"><input class="cb" type="checkbox" checked onclick="selectFriend(this)"/><div class="numeFriend"><label class="nume">' + friend.name + '</label></div></div>');
+	}
+	else {
+		return $('<div class="friend" id="' + friend.id + '" data-name="' + friend.name + '" style="background-image: url(' + friend.picture + ')"><input class="cb" type="checkbox" onclick="selectFriend(this)"/><div class="numeFriend"><label class="nume">' + friend.name + '</label></div></div>');
+	}
 }
 
 function populateFriendsField(pageNumber){
@@ -60,7 +68,7 @@ function populateFriendsField(pageNumber){
 	}
 
 	if (pageNumber == 1) {
-		if (Math.ceil(friends.length / 9) > 1) {
+		if (Math.ceil(friends.length / 10) > 1) {
 			document.getElementById('nextPage').style.visibility = "visible";
 		}
 		else {
@@ -72,8 +80,8 @@ function populateFriendsField(pageNumber){
 
 	$('#friends').empty();
 
-	var startIndex = (pageNumber - 1) * 9;
-	var endIndex = pageNumber * 9 - 1;
+	var startIndex = (pageNumber - 1) * 10;
+	var endIndex = pageNumber * 10 - 1;
 
     for (var index = startIndex; index <= endIndex; index++) {
     	if (index < friends.length) {
@@ -85,9 +93,11 @@ function populateFriendsField(pageNumber){
 
 function selectAll() {
 	selectedFriends = [];
+	selectedFriendsName = [];
 	if ($('#selectAll').is(':checked')) {
 		for (var i = 0; i < friends.length; i++) {
 			selectedFriends.push(friends[i].id.toString());
+			selectedFriendsName.push(friends[i].name.toString());
 		}
 		var friendsDivs = $('#friends').children();
 		friendsDivs.each( function(){
@@ -109,7 +119,7 @@ function selectAll() {
 }
 
 function changePageNr(button) {
-	var nrOfPages = Math.ceil(friends.length / 9);
+	var nrOfPages = Math.ceil(friends.length / 10);
 	if (button == "nextPage") {
  		friendsPageNumber++;
  		document.getElementById('previousPage').style.visibility = "visible";
@@ -155,7 +165,7 @@ function searchFriends(input) {
 
 function addDateTime() {
 	if ($('#meeting_times').children().length < 5) {
-		var dateTime = $('<p>' + $('#datetime').val() + '</p>');
+		var dateTime = $('<label class="times">' + $('#datetime').val() + '</label>');
 		dateTime.appendTo($('#meeting_times'));
 		if ($('#meeting_times').children().length == 5) {
 			$('#addDate').attr('disabled', true);
@@ -215,6 +225,7 @@ function sendInvitation() {
 		};
 
 		gapi.interactivepost.render('submitInvitation', options);
+		$('#sharePost').click();
 	}
 
 	var meetingTimes = [];
@@ -224,25 +235,22 @@ function sendInvitation() {
 
 	var invitationData = {
 		'title' : $('#title').val(),
-		'description' : $('#description').val(),
+		'description' : $('#txt').val(),
 		'location' : $('#location').val(),
 		'type' : $('#type').val(),
 		'deadline' : $('#deadline').val(),
 		'meeting_times' : meetingTimes,
-		'friends' : selectedFriends
+		'friends' : selectedFriends,
+		'friendsNames' : selectedFriendsName
 	};
-
-	console.log('selected_friends');
-	console.log(selectedFriends);
 
 	$.ajax({
 	    url:'/meetie/index.php/create_meeting/createInvitation',
 	    type: 'POST',
 	    data: invitationData,
-	    success: function(response){
-	    	$('#sharePost').click();
+	    success: function(response){  	
 	        $('#title').val('');
-	        $('#description').val('');
+	        $('#txt').val('');
 	        $('#location').val('');
 	        $('#type').val('unique');
 	 		$('#deadline').val('');
@@ -251,6 +259,7 @@ function sendInvitation() {
 	 		$('#searchFriendInput').val('');
 	 		$('#selectAll').prop("checked", false);
 	 		selectedFriends = [];
+	 		selectedFriendsName = [];
 	 		populateContor = 0;
 	 		populateFriendsField(1);
 
@@ -266,8 +275,9 @@ function sendInvitation() {
 	 		else if (network == 'twitter') {
 	 			console.log('TWITTER');
 	 			console.log(invitationData.friends);
+	 			var message = 'Hello, I have just invited you to a meeting on Meetie. Check your page to see it.';
 	 			for (var i = 0; i < invitationData.friends.length; i++) {
-	 				twitterSendMessage(invitationData.friends[i]);
+	 				twitterSendMessage(invitationData.friends[i], message);
 	 			}
 	 		}
 	    },

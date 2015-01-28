@@ -32,23 +32,70 @@ function searchByFields() {
 			}
 		}		
 	}
-
 	generate(result);
 }
 
+function sendFinalResponse(element) {
+	var invitationId = $(element).attr('data-invitationId');
+	var network = localStorage.getItem('network');
+	var invitedPersonsIds = [];
+	$(element).prop('disabled', true);
+
+	for (var i = 0; i < invitations.length; i++) {
+		if (invitations[i]['id'] == invitationId) {
+			for (var j = 0; j < invitations[i]['invitedPers'].length; j++) {
+				invitedPersonsIds.push(invitations[i]['invitedPers'][j]['userNetworkId']);
+			}
+			break;
+		}
+	}
+
+	if (network === 'facebook') {
+			
+	}
+	else if (network === 'google_plus') {
+		var invitedPersons = '';
+
+		for (var i = 0; i < invitedPersonsIds.length - 1; i++) {
+			invitedPersons = invitedPersons.concat(invitedPersonsIds[i] + ',');
+		}
+
+		invitedPersons = invitedPersons.concat(invitedPersonsIds[invitedPersonsIds.length - 1]);
+		var text = $(element).siblings('textarea').val();
+		var options = {
+			contenturl : 'http://webprojects.dev/meetie/index.php/home',
+			clientid : '552747617031-iq9hg8hgm56mtd2jdn9uv4neit9tvhkr.apps.googleusercontent.com',
+			calltoactionurl : 'http://webprojects.dev/meetie/index.php/home',
+			cookiepolicy : 'none',
+			prefilltext : text,
+			recipients : invitedPersons
+		};
+
+		gapi.interactivepost.render('sharePost', options);
+		$('#sharePost').click();
+	}
+	else if (network === 'twitter') {
+		for (var i = 0; i < invitedPersonsIds.length; i++) {
+			var text = $(element).siblings('textarea').val();
+			console.log(text);
+	 		twitterSendMessage(invitedPersonsIds[i], text);
+	 	}
+	}
+}
+
+
 function generate(invitations){
-	 $("#impar").empty();
-	 $("#par").empty();	
+
+	$("#impar").empty();
+	$("#par").empty();
 
 	var stanga = $("#impar");
 	var dreapta = $("#par");
-
 	var breakpoint = $('<br/>');
 
     console.log('network id ' + networkUserId);
 
     for ( var i = 0 ; i < invitations.length ; i++){
-    	var myPosition = orderInvitedPersons(i);
 
         var contact = $('<div class="contact"></div>');
         var title = $('</br><label class="toMiddle dTitle">'+ invitations[i]['title'] + '</label></br>');
@@ -57,29 +104,26 @@ function generate(invitations){
         breakpoint.appendTo(contact);
         breakpoint.appendTo(contact);
 
-        var creator = $('<label class="toMiddle dCreated"> Created by '+ invitations[i]['creator_name'] + '</label>');
-        creator.appendTo(contact);
-
-        breakpoint.appendTo(contact);
-        breakpoint.appendTo(contact);
-
         var description = $('<p class="toMiddle">'+ invitations[i]['description'] + '</p>');
         description.appendTo(contact);
 
-        breakpoint.appendTo(contact);
-        breakpoint.appendTo(contact);
+        var creatorResponse = $('<textarea id="finalResponse" data-invitationId="' + invitations[i]['id'] + '" class="motiv toMiddle"></textarea><br/>');
+        var send = $('<a data-invitationId="' + invitations[i]['id'] + '" class="sendButton toMiddle" onclick="sendFinalResponse(this)">Send response</a><br/><br/>');
+        var titleLabel = $('<label class="reasonLabel toMiddle">Your decision regarding the meeting</label><br/>');
 
-        var tableHead = $('<table class="toMiddle little"><tr class="tableHead"></tr></table>');
+        titleLabel.appendTo(contact);
+        creatorResponse.appendTo(contact);
+        send.appendTo(contact);
+
+        var tableHead = $('<table class="toMiddle little"><tr class="tableHead toMiddle little"></tr></table>');
         //console.log(invitations[i]);
-        if ((invitations != "You have no invitations!") && (invitations != "You have no created meetings!")){
-	        for (var j = 0; j < invitations[i]['times'].length; j++) {
-	        	var dateParts = invitations[i]['times'][j].split(new RegExp("\\s+"));
-	        	var dateAndTime = $('<td><label>' + dateParts[0] + '</label><br/><label>' + dateParts[1] + '</label></td>');
-	        	dateAndTime.appendTo(tableHead);
-	        }
-	        var notComming = $('<td><label>Not comming</label></td>');
-	        notComming.appendTo(tableHead);
+        for (var j = 0; j < invitations[i]['times'].length; j++) {
+        	var dateParts = invitations[i]['times'][j].split(new RegExp("\\s+"));
+        	var dateAndTime = $('<td><label>' + dateParts[0] + '</label><br/><label>' + dateParts[1] + '</label></td>');
+        	dateAndTime.appendTo(tableHead);
         }
+        var notComming = $('<td><label>Not comming</label></td>');
+	    notComming.appendTo(tableHead);
 
 
         var deadline = $('<label style="display:inline" class="toMiddle">Deadline: '+ invitations[i]['deadline'] + '</label>');
@@ -91,26 +135,21 @@ function generate(invitations){
 
         var table = $('<table class="toMiddle" border="1"><tbody></tbody></table></br></br>');
 
-        var line = populateTable(invitations[i], myPosition, myPosition);
-        if (line != null) {
-        	line.appendTo(table);
-        }
-
         for ( var contor = 0 ; contor < invitations[i]['invitedPers'].length; contor++){
 	        	var line;
-	        	if (myPosition != contor) {
-	        		line = populateTable(invitations[i], contor, myPosition);
-	        		line.appendTo(table);
-	        	}
+	        	line = populateTable(invitations[i], contor);
+
+	            line.appendTo(table);
         }
 
         table.appendTo(contact);
         
- 	    var tableFooter = $('<table class="toMiddle little"><tr class="tableFooter"></tr></table>');
- 	    for (var cont = 0; cont < invitations[i]['times'].length; cont++) {
+ 	    var tableFooter = $('<table class="toMiddle little" ><tr class="tableFooter little"></tr></table>');
+       
+        for (var cont = 0; cont < invitations[i]['times'].length; cont++) {
         	for (var k = 0; k < nrOfInvitationReplies.length; k++) {
-        		if ((nrOfInvitationReplies[k]['invitation_id'] == invitations[i]['id']) && (nrOfInvitationReplies[k]['time'] == invitations[i]['times'][cont]) ) {
-        			var dateAndTime = $('<td><label style="margin-right: 7px; margin-left: 5px">  ' + nrOfInvitationReplies[k]['value'] + ' votes   </label> <br/></td>');
+        		if ((nrOfInvitationReplies[k]['invitation_id'] == invitations[i]['id']) && (nrOfInvitationReplies[k]['time'] == invitations[i]['times'][cont])) {
+        			var dateAndTime = $('<td><label  style="margin-right: 7px; margin-left: 5px">' + nrOfInvitationReplies[k]['value'] + ' votes</label><br/></td>');
         			dateAndTime.appendTo(tableFooter);
         		}
         	}
@@ -122,8 +161,9 @@ function generate(invitations){
         	}
         }
 
+
         tableFooter.appendTo(contact);
- 
+
         if( i%2 == 0 )
  	    	contact.appendTo(dreapta);
  		else
@@ -131,72 +171,41 @@ function generate(invitations){
     }
 }
 
-function populateTable(invitation, position, myPosition){
-	var line;
-	if ((invitations != "You have no invitations!") && (invitations != "You have no created meetings!")) {
-		line = $('<tr></tr>');
-		var name = $('<td width="180">'+ invitation['invitedPers'][position]['name']+'</td>');
-		name.appendTo(line);
+function populateTable(invitation, position){
+	console.log('invitation in populate table ');
+	console.log(invitation['invitedPers']);
+	console.log(position);
+	var line = $('<tr></tr>');
+	var name = $('<td width="180">'+ invitation['invitedPers'][position]['name']+'</td>');
+	name.appendTo(line);
 
-		for ( var contor1 = 0 ; contor1 < invitation['times'].length ; contor1++){
-			var column = $('<td width="50" height="30"></td>');;
-		    var input = $('<input data-invitationId="' + invitation['id'] + '" data-meetingTime="' + invitation['times'][contor1] + '" type="checkbox" />');
-		    var checkboxInput = $(column).children('input')[0];
-	        
-	        
+	for ( var contor1 = 0 ; contor1 < invitation['times'].length ; contor1++){
+		var column = $('<td width="50" height="30"></td>');;
+	    var input = $('<input data-invitationId="' + invitation['id'] + '" data-meetingTime="' + invitation['times'][contor1] + '" type="checkbox" />');
+	    
+        $(input).prop('disabled',true);
+        
 
-		    if (position != myPosition ){
-		        $(input).prop('disabled',true);
-		    }
-		    if (invitation['invitedPers'][position]['response'] == invitation['times'][contor1]){
-		        $(input).prop('checked',true);
-		    }
-		    if ( position == myPosition ){
-		        $(input).on('click', function() {
-			       	if ($(this).prop('checked')) {
-			       		sendInvitationReply($(this).attr('data-invitationId'), $(this).attr('data-meetingTime'));
-		                updateReplies($(this).attr('data-invitationId'), $(this).attr('data-meetingTime'),"increment");
-			   		}
-		   			else {
-			       		sendInvitationReply($(this).attr('data-invitationId'), "uncheck");
-		                updateReplies($(this).attr('data-invitationId'), $(this).attr('data-meetingTime'),"decrement");
-	    			}
-			    });
-		    }
-		    
-		    input.appendTo(column);
-		    column.appendTo(line);
-		}
-
-		var column = $('<td width="40" height="30"></td>');;
-		var input = $('<input data-invitationId="' + invitation['id'] + '" data-meetingTime="Not comming" type="checkbox" />');
-
-		if (position != myPosition ){
-		    $(input).prop('disabled',true);
-		}
-		if (invitation['invitedPers'][position]['response'] == "Not comming"){
-		        $(input).prop('checked',true);
-		}
-		if ( position == myPosition ){
-		    $(input).on('click', function() {
-			    if ($(this).prop('checked')) {
-			        sendInvitationReply($(this).attr('data-invitationId'), $(this).attr('data-meetingTime'));
-		            updateReplies($(this).attr('data-invitationId'), $(this).attr('data-meetingTime'),"increment");
-			   	}
-		   		else {
-			       	sendInvitationReply($(this).attr('data-invitationId'), "uncheck");
-		            updateReplies($(this).attr('data-invitationId'), $(this).attr('data-meetingTime'),"decrement");
-	    		}
-			 });
-		}
-		    
-		    input.appendTo(column);
-		    column.appendTo(line);
-
-		return line;
+	    if (invitation['invitedPers'][position]['response'] == invitation['times'][contor1]){
+	        $(input).prop('checked',true);
+	    }
+	    
+	    input.appendTo(column);
+	    column.appendTo(line);
 	}
 
-    return null;
+	var column = $('<td width="40" height="30"></td>');;
+	    var input = $('<input data-invitationId="' + invitation['id'] + '" data-meetingTime="Not comming" type="checkbox" />');
+        $(input).prop('disabled',true);
+        
+	    if (invitation['invitedPers'][position]['response'] == "Not comming"){
+	        $(input).prop('checked',true);
+	    }
+	    
+	    input.appendTo(column);
+	    column.appendTo(line);
+
+    return line;
 }
 
 function isInvitationMatched(invitation, searchFields, searchValues) {
@@ -252,9 +261,14 @@ function getNetworkId(){
 	    type: 'GET',
 	    success: function(data){
 	       networkUserId = $.parseJSON(data);
+	       console.log(invitations);
 	       if ((invitations != "You have no invitations!") && (invitations != "You have no created meetings!")) {
 		   		countVotesForTimes();
            		generate(invitations);
+       		}
+       		else
+       		{
+       			console.log('Nu e nimic in bd');
        		}
 	    },
 	    error: function(){
@@ -264,16 +278,6 @@ function getNetworkId(){
 
 }
 
-function orderInvitedPersons(invId) {
-
-  if ((invitations != "You have no invitations!") && (invitations != "You have no created meetings!")){
-	for (var contor2 = 0; contor2 < invitations[invId]['invitedPers'].length; contor2++) {
-		if (invitations[invId]['invitedPers'][contor2]['userNetworkId'] == networkUserId) {
-			return contor2;
-		}
-	}
-  }
-}
 
 function sendInvitationReply(invitationId, timeOfMeeting){
 
@@ -294,17 +298,16 @@ function sendInvitationReply(invitationId, timeOfMeeting){
 
 function updateReplies(invId, time,type) {
 	for (var i = 0; i < nrOfInvitationReplies.length; i++) {
-		if ((nrOfInvitationReplies[i]['invitation_id'] == invId) && (type=="increment") && (nrOfInvitationReplies[i]['time'] == time)) {
-			nrOfInvitationReplies[i]['value']++;
+		if ((nrOfInvitationReplies[i]['invitation_id'] == invId) && (type=="increment")) {
+			nrOfInvitationReplies[i]['times'][time]++;
 			break;
 		}
-		if ((nrOfInvitationReplies[i]['invitation_id'] == invId) && (type=="decrement") && (nrOfInvitationReplies[i]['time'] == time)) {
-			nrOfInvitationReplies[i]['value']--;
+		if ((nrOfInvitationReplies[i]['invitation_id'] == invId) && (type=="decrement")) {
+			nrOfInvitationReplies[i]['times'][time]--;
 			break;
 		}
 	}
 }
-
 
 function countVotesForTimes() {
 	var times = [];

@@ -32,11 +32,10 @@ function logInWithFacebook() {
 	FB.login(function(response) {
     	if (response.status === 'connected') {
     		localStorage.setItem("userKey", response.authResponse.accessToken);
-		    // Logged into your app and Facebook.
 		    console.log('connected fb');
 		    localStorage.setItem("network", 'facebook');
 		    facebookGetUserInfo();
-		    //sendMail();
+		    getProfilePicture();
 		} else if (response.status === 'not_authorized') {
 		    // The person is logged into Facebook, but not your app.
 		    console.log('not_authorized fb');
@@ -53,6 +52,12 @@ function facebookGetUserInfo() {
 	});
 }
 
+function getProfilePicture() {
+	FB.api('/me/picture', function(response) {
+		localStorage.setItem("profilePicture", response.data.url);
+	});
+}
+
 function facebookFriendsList() {
 	var result = [];
 	var key = localStorage.getItem("userKey");
@@ -62,7 +67,7 @@ function facebookFriendsList() {
         		for (var i = 0; i < response.data.length; i++) {
         			var friend = {id:response.data[i].id, name:response.data[i].name, picture:response.data[i].picture.data.url, email:response.data[i].email};
         			result.push(friend);
-        			console.log(response.data[i].email);
+        			console.log(response.data[i]);
         		}
         		localStorage.setItem("user_friends", JSON.stringify(result));
       			populateFriendsField(1);

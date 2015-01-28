@@ -18,6 +18,8 @@
 		}
 
 		public function setInvitationReply($invitationId, $personId, $response) {
+			if ($response == "uncheck") $response = null;
+			
 			$data = array(
 				'response' => $response 
 			);

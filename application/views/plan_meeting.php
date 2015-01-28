@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Meetie</title>
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css'); ?>">
 	</head>
 
 	<body>
@@ -47,40 +48,83 @@
 			}(document, 'script', 'facebook-jssdk'));
 		</script>
 
-		<label for="title">Title</label>
-		<input id="title" type="text" name="title"/><br />
+		<div class="all">
+			<img id="cover" src="<?php echo base_url('assets/images/cover3.jpg'); ?>">
+			<div class="shadow2">
+				<a href="<?php echo base_url('index.php/home'); ?>"><img id="arrow" src="<?php echo base_url('assets/images/arrow.png'); ?>"></a>
+				<img id="profile"/>
+				<a class="delogare" href="<?php echo base_url('index.php/logout'); ?>">Logout</a>
+				<div class="middle2">
+					
+						<div class="partOne">
+							<div class="form1">
+								<br><br>
+							
+								<div class="fields">
+									<label class="labels">Title </label>
+									<input id="title" type="text">
+								</div>
+									<br>
+								<div style="height: 90px; margin-top: 5px;">
+									<label class="labels">Description </label>
+									<textarea id="txt"></textarea>
+								</div>
+									<br>
+								<div class="fields">
+									<label class="labels">Location </label>
+									<input id="location" type="text">
+								</div>
+									<br>
+								<div class="fields">
+									<label class="labels">Type </label>
+									<select id="type">
+										<option value="unique">Unique</option>
+										<option value="daily">Daily</option>
+										<option value="weekly">Weekly</option>
+										<option value="monthly">Monthly</option>	
+									</select>
+								</div>
+									<br>
+								<div class="fields">
+									<label class="labels">Deadline </label>
+									<input id="deadline" type="date">
+								</div>
+									<br>
+								<div class="fields">
+									<label class="labels">Date </label>
+									<input id="datetime" type="datetime-local">
+								</div>
+								<button id="addDate" onClick="addDateTime()">+</button><br />
+								<div id="meeting_times"></div><br />
+		
+					</div>
+						</div>
 
-		<label for="description">Description</label>
-		<input id="description" type="text" name="description"/><br />
+						<div class="partTwo">
+							<div class="inPartTwo fields">
+								<label class="labels">Invited people </label>
+								<input id="searchFriendInput" onkeyup="searchFriends(this)" style="width: 40%; margin-top: -1%;" type="text" placeholder="  Search"> 
+							</div>
+							<div id="friends">
+							</div>
+							<div class="pagini">
+								<a class="page nume" id="previousPage" onclick="changePageNr('previousPage')" style='visibility:hidden'>Previous page</a>
+								<a class="page nume" id="nextPage" onclick="changePageNr('nextPage')" style='visibility:hidden'>Next page</a>
 
-		<label for="location">Location</label>
-		<input id="location" type="text" name="location" /><br />
+							</div>
+							<label class="selectAll">Select all</label>
+							<input type="checkbox" id="selectAll" onclick='selectAll()'/>
+					</div>
+				</div>
+					<a id="submitInvitation" onClick="sendInvitation()">Submit</a>
+					<button id='sharePost' hidden></button>
+				<div class="footer"></div>
+				<div class="footer2"></div>
+			</div>
+									
+		</div>
+		<script src="<?php echo base_url('assets/scripts/scriptsCreare.js'); ?>"  type="text/javascript">
+		</script> 
 
-		<label for="type">Type</label>
-		<select id="type" name="type">
-			<option value="unique">Unique</option>
-			<option value="daily">Daily</option>
-			<option value="weekly">Weekly</option>
-			<option value="monthly">Monthly</option>
-		</select><br />
-
-		<label for="deadline">Deadline</label>
-		<input id="deadline" type="date" name="deadline" /><br />
-
-		<label for="datetime">Date and time</label>
-		<input id="datetime" type="datetime-local" name="datetime" /> <button id="addDate" onClick="addDateTime()">+</button><br />
-
-		<div id="meeting_times"></div><br />
-
-		<input id="searchFriendInput" type="text" onkeyup="searchFriends(this)"/>
-		<input id="selectAll" type='checkbox' onclick='selectAll()'> All </input>
-		<div id="friends"></div>
-		<button id="previousPage" onclick="changePageNr('previousPage')" style='visibility:hidden'>Previous</button>
-		<button id="nextPage" onclick="changePageNr('nextPage')" style='visibility:hidden'>Next</button>
-		<br /><br />
-		<div id="group"></div><br />
-
-		<button id='sharePost' hidden></button>
-		<button id="submitInvitation" onClick="sendInvitation()">Submit</button>
 	</body>
 </html>

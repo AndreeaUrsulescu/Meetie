@@ -139,7 +139,8 @@
 				foreach ($resArray as $person) {
 					$persons[$count] = array(
 						'userNetworkId' => $person['person_id'],
-						'response' => $person['response'] 
+						'response' => $person['response'],
+						'name' => $person['person_name'] 
 					);
 					$count = $count + 1;
 				}
@@ -161,6 +162,21 @@
 			else {
 				return $resArray[0]['name'];
 			}		
+		}
+
+		public function getInvitedPersonName($network, $network_id) {
+			$whereCond = array('network_id' => $network_id, 'network' => $network);
+			$this->db->where($whereCond);
+			$result = $this->db->get("users");
+
+			$resArray = $result->result_array();
+
+			if (count($resArray) == 0) {
+			 	return false;
+			}
+			else {
+				return $resArray[0]['name'];
+			}	
 		}
 	}
 ?>

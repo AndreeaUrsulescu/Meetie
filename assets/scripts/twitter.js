@@ -6,10 +6,11 @@ function initializeOAuth(){
 		OAuth.popup('twitter', {cache:true})
 		.done(function(result) {
         localStorage.setItem("network", 'twitter');
-    		result.me()
-    		.done(function (response) {
-        		var userData = {network:"twitter",id:response.id,name:response.name};
-            	redirectToHome(userData);
+        result.me()
+        .done(function (response) {
+            localStorage.setItem('profilePicture', response.raw.profile_image_url);
+            var userData = {network:"twitter",id:response.id,name:response.name};
+              redirectToHome(userData);
     		})
     		.fail(function (err) {
        		 	console.log(err);
@@ -63,13 +64,13 @@ function initializeOAuth(){
 
 
 
-  function twitterSendMessage(friendId) {
+  function twitterSendMessage(friendId, message) {
     console.log('twitterSendMessage');
     var res = OAuth.create('twitter');
     res.post('/1.1/direct_messages/new.json', {
       data: {
-        text: 'Hello, I have just invited you to a meeting on Meetie. Check your page to see it.',
-        user_id : friendId    //2982593771        //user_id : 2985906389
+        text: message,
+        user_id : friendId 
       }
     })
     .done(function(data) {
